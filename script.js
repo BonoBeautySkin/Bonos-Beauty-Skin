@@ -1,9 +1,8 @@
-// JavaScript for Bono BeautySkin Website (No Prices)
+// JavaScript for Bono BeautySkin Website (No Prices, No Cart, No Form)
 
 // DOM Elements
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
-const contactForm = document.getElementById('contactForm');
 
 // Mobile Navigation Toggle
 navToggle.addEventListener('click', () => {
@@ -39,120 +38,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Notification System
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>${message}</span>
-    `;
-    
-    // Add styles for notification
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #ff69b4, #db7093);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        animation: slideIn 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Contact Form Submission
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const subject = this.querySelector('input[placeholder="Subject"]').value;
-        const message = this.querySelector('textarea').value;
-        
-        // Validate form
-        if (!name || !email || !subject || !message) {
-            showNotification('Please fill in all fields');
-            return;
-        }
-        
-        // Simulate form submission
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        // Show loading state
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-        
-        // Simulate API call delay
-        setTimeout(() => {
-            // Show success message
-            showNotification('Message sent successfully! We\'ll contact you soon.');
-            
-            // Reset form
-            contactForm.reset();
-            
-            // Restore button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            
-            // In a real application, you would send data to a server
-            console.log('Contact form submitted:', {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            });
-            
-        }, 2000);
-    });
-}
-
-// Quick View Product Functionality (Without Price)
+// Quick View Product Functionality
 const quickViewButtons = document.querySelectorAll('.quick-view');
 quickViewButtons.forEach(button => {
     button.addEventListener('click', function(e) {
@@ -358,8 +244,8 @@ function initializeCarousel() {
     let autoPlayInterval;
     let isAutoPlaying = true;
     
-    // Create indicators for 11 slides
-    for (let i = 0; i < 6; i++) { // Currently showing 6 slides
+    // Create indicators for 6 slides
+    for (let i = 0; i < 6; i++) {
         const indicator = document.createElement('button');
         indicator.className = 'indicator';
         if (i === 0) indicator.classList.add('active');
@@ -385,7 +271,7 @@ function initializeCarousel() {
             autoPlayInterval = setInterval(() => {
                 currentSlide = (currentSlide + 1) % 6;
                 updateCarousel();
-            }, 5000); // Change slide every 5 seconds
+            }, 5000);
         }
     }
     
